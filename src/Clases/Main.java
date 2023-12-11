@@ -288,6 +288,16 @@ public class Main {
         }
     }
 
+    // Método para enviar un mensaje a todos los usuarios
+    public static void enviarMensajeMasivo(String emisor, String contenido) {
+        for (Usuario usuario : usuarios) {
+            if (!(usuario instanceof Administrador) || !usuario.getNombreUsuario().equals(emisor)) {
+                enviarMensaje(emisor, usuario, contenido);
+            }
+        }
+        System.out.println("Mensaje masivo enviado correctamente.");
+    }
+
     // Método para enviar un mensaje (corregir)
     public static void enviarMensaje(String emisor, Usuario receptor, String contenido) {
         Mensaje mensaje = new Mensaje(contenido,emisor);
@@ -672,7 +682,10 @@ public class Main {
                     System.out.println("2 - Modificacion de productos");
                     System.out.println("3 - Eliminacion de productos");
                     System.out.println("4 - Ver productos");
-                    System.out.println("5 - Logout");
+                    System.out.println("5 - Ver bandeja de mensajes");
+                    System.out.println("6 - Enviar mensaje");
+                    System.out.println("7 - Enviar mensaje masivo");
+                    System.out.println("8 - Logout");
                     System.out.print("Seleccione una opcion: ");
                     opcion = scanner.nextInt();
                     ok = true;
@@ -697,6 +710,29 @@ public class Main {
                     verProductos();
                     break;
                 case 5:
+                    verBandejaEntrada(usuarioActual);
+                    break;
+                case 6:
+                    verUsuarioscargados();
+                    scanner.nextLine();
+                    System.out.print("Por favor eliga el usuario destinatario: ");
+                    String destinatario = scanner.nextLine();
+                    for (Usuario usuario : usuarios) {
+                        if (usuario.getNombreUsuario().equals(destinatario)) {
+                        receptor = usuario;
+                        }
+                    }
+                    System.out.print("Por favor ingrese el texto a enviar: ");
+                    String contenido = scanner.nextLine();
+                    enviarMensaje(usuarioActual.getNombreUsuario(),receptor,contenido);
+                    break;
+                case 7:
+                    scanner.nextLine();
+                    System.out.print("Por favor ingrese el texto a enviar: ");
+                    String mensajemasivo = scanner.nextLine();
+                    enviarMensajeMasivo(usuarioActual.getNombreUsuario(),mensajemasivo);;
+                    break;
+                case 8:
                     usuarioActual = null;
                     System.out.println("Cerrando sesion de administrador.");
                     return;
