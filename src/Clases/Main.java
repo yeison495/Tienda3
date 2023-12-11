@@ -158,7 +158,7 @@ public class Main {
             writer.write(lineaCSV);
             writer.newLine(); // Agregar una nueva línea al final
 
-            System.out.println("Usuario Administrador registrado con éxito en el archivo csv.");
+            System.out.println("Usuario Administrador registrado con exito en el archivo csv.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -175,7 +175,7 @@ public class Main {
             writer.write(lineaCSV);
             writer.newLine(); // Agregar una nueva línea al final
 
-            System.out.println("Usuario Cliente registrado con éxito en el archivo csv.");
+            System.out.println("Usuario Cliente registrado con exito en el archivo csv.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -191,7 +191,7 @@ public class Main {
             writer.write(lineaCSV);
             writer.newLine(); // Agregar una nueva línea al final
 
-            System.out.println("Producto de tipo Crema Solar registrado con éxito en el archivo csv.");
+            System.out.println("Producto de tipo Crema Solar registrado con exito en el archivo csv.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -209,7 +209,7 @@ public class Main {
             writer.write(lineaCSV);
             writer.newLine(); // Agregar una nueva línea al final
 
-            System.out.println("Producto de tipo Crema Hidratante registrado con éxito en el archivo csv.");
+            System.out.println("Producto de tipo Crema Hidratante registrado con exito en el archivo csv.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -227,7 +227,7 @@ public class Main {
             writer.write(lineaCSV);
             writer.newLine(); // Agregar una nueva línea al final
 
-            System.out.println("Producto de tipo Gel para el cabello registrado con éxito en el archivo csv.");
+            System.out.println("Producto de tipo Gel para el cabello registrado con exito en el archivo csv.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -245,7 +245,7 @@ public class Main {
             writer.write(lineaCSV);
             writer.newLine(); // Agregar una nueva línea al final
 
-            System.out.println("Producto de tipo Desodorante registrado con éxito en el archivo csv.");
+            System.out.println("Producto de tipo Desodorante registrado con exito en el archivo csv.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -264,7 +264,7 @@ public class Main {
             writer.write(lineaCSV);
             writer.newLine(); // Agregar una nueva línea al final
 
-            System.out.println("Producto de tipo Esmalte registrado con éxito en el archivo csv.");
+            System.out.println("Producto de tipo Esmalte registrado con exito en el archivo csv.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -282,7 +282,7 @@ public class Main {
             writer.write(lineaCSV);
             writer.newLine(); // Agregar una nueva línea al final
 
-            System.out.println("Producto de tipo Cuchilla registrado con éxito en el archivo csv.");
+            System.out.println("Producto de tipo Cuchilla registrado con exito en el archivo csv.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -318,13 +318,13 @@ public class Main {
     public static void verBandejaEntrada(Usuario usuario) {
         if (bandejaEntrada.containsKey(usuario)) {
             List<Mensaje> mensajes = bandejaEntrada.get(usuario);
-            System.out.println("Bandeja de entrada para " + usuario.getNombreUsuario() + ":");
+            System.out.println("Bandeja de entrada de " + usuario.getNombreUsuario() + ":");
             for (Mensaje mensaje : mensajes) {
                 // Mostrar mensaje y fecha/hora
                 System.out.println("Mensaje enviado por : " + mensaje.getEmisormensaje()+ "\nContenido: " + mensaje.getContenido() + "\nFecha/Hora: " + mensaje.getFechaHora()  );
             }
         } else {
-            System.out.println("Bandeja de entrada vacia para " + usuario.getNombreUsuario());
+            System.out.println("Bandeja de mensajes de " + usuario.getNombreUsuario() + "se encuentra vacia");
         }
     }
 
@@ -376,7 +376,7 @@ public class Main {
         String tipoUsuario;
         
         while (true) {
-            System.out.print("Ingrese el tipo de usuario: ");
+            System.out.print("Ingrese el tipo de usuario(Administrador, Cliente): ");
             tipoUsuario = scanner.nextLine();
 
             if (tipoUsuario.equalsIgnoreCase("Administrador")) {
@@ -461,7 +461,7 @@ public class Main {
             }
         }
         while (true) {
-            System.out.print("Ingrese el pais donde labora: ");
+            System.out.print("Ingrese su turno laboral(1, 2, 3, fd): ");
             horario = scanner.nextLine();
             if (horario.equals("1") || horario.equals("2") || horario.equals("3") || horario.equalsIgnoreCase("fd")) {
                 System.out.println("El Horario es valido");
@@ -953,7 +953,35 @@ public class Main {
                 scanner.nextLine();
             }
         } while (!ok);
+                
+        String archivoCSV = "src/bd/Productos.csv"; // Ruta del archivo CSV
 
+        // Leer el archivo CSV y eliminar datos específicos
+        try (BufferedReader lector = new BufferedReader(new FileReader(archivoCSV))) {
+            List<String> lineas = new ArrayList<>();
+
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                // Si deseas eliminar líneas específicas, verifica aquí y no añadas esas líneas a la lista
+                if (!linea.contains(String.valueOf(idProducto))) {
+                    lineas.add(linea);
+                }
+            }
+
+            // Sobrescribir el archivo con los datos actualizados (sin los datos eliminados)
+            try (BufferedWriter escritor = new BufferedWriter(new FileWriter(archivoCSV))) {
+                for (String l : lineas) {
+                    escritor.write(l);
+                    escritor.newLine();
+                }
+                System.out.println("Datos eliminados del archivo CSV exitosamente.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         // Buscar el producto por ID
         for (Producto producto : productos) {
             if (producto.getID() == idProducto) {
