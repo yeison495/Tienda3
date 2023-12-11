@@ -350,7 +350,7 @@ public class Main {
             if (usuario.getNombreUsuario().equals(nombreUsuario) && usuario.getPassword().equals(password)) {
                 usuarioActual = usuario;
                 System.out.println("Inicio de sesion exitoso.");
-                if (usuarioActual.getTipoUsuario().equals("administrador")) {
+                if (usuarioActual.getTipoUsuario().equals("Administrador")) {
                     // Si el usuario es administrador, mostrar menú de administrador
                     mostrarMenuAdmin();
                 } else {
